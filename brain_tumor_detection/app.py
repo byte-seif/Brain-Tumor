@@ -97,7 +97,6 @@ def display_notebook(notebook_path):
             logging.error("Notebook content could not be rendered.")
             return
 
-        # Corrected to use `components.html()`
         components.html(body, height=1200, width=1200, scrolling=True)
         logging.info("Notebook content rendered successfully.")
 
@@ -108,7 +107,41 @@ def display_notebook(notebook_path):
 # Streamlit app layout and interactions
 st.title("Brain Tumor Detection and Classification")
 
-# Sidebar navigation
+# Project Background Information and Description
+st.markdown("""
+## **Background Information**
+
+A brain tumor is an abnormal growth of cells in the brain or nearby tissues (e.g., meninges, cranial nerves, or pituitary gland) and can be primary (originating in the brain) or secondary (metastatic, spreading from other organs). Primary brain tumors are either benign or malignant, with common malignant types including gliomas (from glial cells), meningiomas (from meninges), pituitary tumors, and medulloblastomas (common in children).
+
+Risk factors for brain tumors include genetic predisposition and exposure to ionizing radiation, though causes are often unknown. Symptoms vary based on tumor size, type, and location, typically manifesting as headaches, seizures, cognitive changes, or neurological deficits. MRI and CT scans are standard diagnostic tools, often followed by a biopsy to assess tumor type and grade.
+
+### **Objective of the Project**
+
+This project aims to develop a deep learning-based solution to automate brain tumor detection and classification using MRI images. By leveraging convolutional neural networks (CNNs), the model identifies and categorizes brain tumors into one of four classes, thereby assisting radiologists and clinicians in making faster, data-driven decisions for patient care. Such an AI-based solution can be a transformative tool, potentially reducing diagnostic time, minimizing inter-observer variability, and supporting more consistent clinical outcomes.
+
+### **Tumor Classes in the Dataset**
+
+1. **Glioma**: A type of malignant tumor originating from glial cells, which provide support and protection for neurons. Gliomas are often aggressive and require prompt intervention.
+
+2. **Meningioma**: Generally benign, meningiomas originate in the meninges—the protective layers covering the brain and spinal cord. While less aggressive, they may cause significant health issues due to their location.
+
+3. **No Tumor**: MRI scans in this category show no evidence of brain tumors, serving as a control to validate the model’s ability to distinguish healthy cases from pathological ones.
+
+4. **Pituitary Tumor**: Located at the base of the brain, these tumors arise from the pituitary gland and can impact hormone production and neurological function. Most pituitary tumors are benign but may still require medical intervention.
+
+### **Model Implementation**
+
+For this project, a **Convolutional Neural Network (CNN)** was implemented to classify MRI images into the four defined categories. CNNs are particularly effective in image classification tasks due to their ability to learn hierarchical features through multiple layers. The model architecture includes a series of convolutional layers to capture spatial features, followed by fully connected layers to interpret these features for classification.
+
+### **Project Goals**
+
+1. **Accurate Tumor Classification**: Achieve high sensitivity and specificity in identifying and classifying brain tumors across four categories.
+2. **Real-time Prediction**: Allow clinicians and users to upload MRI images for immediate classification and receive results with confidence scores.
+3. **Support Clinical Decision-making**: Provide a consistent and efficient diagnostic tool to assist radiologists, ultimately contributing to faster patient management and improved outcomes.
+
+---
+
+# Sidebar Navigation
 st.sidebar.title("Navigation")
 page = st.sidebar.radio("Choose a page", ["Model Testing", "View Notebook"])
 
@@ -117,12 +150,15 @@ if page == "Model Testing":
     st.header("Brain Tumor Classification from MRI Scans")
     st.write("Upload an MRI image, and the model will classify it into one of the four categories.")
 
+    # File uploader for user to upload MRI image
     uploaded_file = st.file_uploader("Choose an MRI image...", type=["jpg", "jpeg", "png"])
 
     if uploaded_file is not None:
+        # Display the uploaded image
         image = Image.open(uploaded_file)
         st.image(image, caption="Uploaded MRI Image", use_column_width=True)
 
+        # Preprocess and classify the image
         st.write("Classifying...")
         try:
             processed_image = preprocess_image(image)
@@ -130,6 +166,7 @@ if page == "Model Testing":
             confidence = np.max(predictions)
             predicted_class = class_labels[np.argmax(predictions)]
 
+            # Display the prediction result and confidence level
             st.write(f"**Prediction:** {predicted_class}")
             st.write(f"**Confidence:** {confidence:.2f}")
         except ValueError as e:
