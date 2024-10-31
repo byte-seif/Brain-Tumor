@@ -8,7 +8,7 @@ from nbconvert import HTMLExporter
 # Load the model
 @st.cache_resource
 def load_model():
-    model = tf.keras.models.load_model("simplified_cnn_model.h5")
+    model = tf.keras.models.load_model("brain_tumor_detection/simplified_cnn_model.h5")
     return model
 
 model = load_model()
