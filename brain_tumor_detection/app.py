@@ -130,7 +130,7 @@ if page == "Model Testing":
 # Define Notebook View page
 elif page == "View Notebook":
     st.header("Project Notebook")
-    display_notebook("brain_tumor_detection/brain_tumor_notebook.ipynb")
+    display_notebook("brain_tumor_detection/CNN.ipynb")
 
 
 
