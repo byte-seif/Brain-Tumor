@@ -18,10 +18,12 @@ class_labels = ['Glioma', 'Meningioma', 'No Tumor', 'Pituitary']
 
 # Preprocess the uploaded image
 def preprocess_image(image: Image.Image) -> np.array:
-    image = ImageOps.fit(image, (150, 150), Image.ANTIALIAS)
+    # Resize the image with high-quality downsampling
+    image = ImageOps.fit(image, (150, 150), Image.LANCZOS)
     img_array = np.asarray(image) / 255.0  # Normalize to [0, 1]
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
     return img_array
+
 
 # Function to display the notebook
 def display_notebook(notebook_path):
