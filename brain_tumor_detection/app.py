@@ -19,14 +19,23 @@ class_labels = ['Glioma', 'Meningioma', 'No Tumor', 'Pituitary']
 
 # Preprocess the uploaded image
 def preprocess_image(image: Image.Image) -> np.array:
-    # Resize the image with high-quality downsampling
-    image = ImageOps.fit(image, (150, 150), Image.LANCZOS)
-    img_array = np.asarray(image) / 255.0  # Normalize to [0, 1]
-    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+    # Resize the image to the target size for the model
+    target_size = (150, 150)  # Target size as per the model training configuration
+    image = ImageOps.fit(image, target_size, Image.LANCZOS)
+
+    # Ensure the image has 3 channels (RGB)
+    if image.mode != 'RGB':
+        image = image.convert('RGB')
+    
+    # Convert the image to a numpy array and normalize to [0, 1]
+    img_array = np.asarray(image) / 255.0
+
+    # Add a batch dimension (1, height, width, channels)
+    img_array = np.expand_dims(img_array, axis=0)
+
     return img_array
 
 # Function to display the notebook
-
 def display_notebook(notebook_path):
     # Check if the notebook file exists
     if not os.path.isfile(notebook_path):
@@ -46,9 +55,8 @@ def display_notebook(notebook_path):
     # Display HTML in Streamlit
     st.components.v1.html(body, height=1000, scrolling=True)
 
-
 # Streamlit app layout and interactions
-st.title("Automated Brain Tumor Detection and Classification Using Deep Learning")
+st.title("Brain Tumor Detection and Classification")
 
 st.markdown("""
 ## **Background**
@@ -107,18 +115,22 @@ if page == "Model Testing":
 
         # Preprocess and classify the image
         st.write("Classifying...")
-        processed_image = preprocess_image(image)
-        predictions = model.predict(processed_image)
-        confidence = np.max(predictions)
-        predicted_class = class_labels[np.argmax(predictions)]
+        try:
+            processed_image = preprocess_image(image)
+            predictions = model.predict(processed_image)
+            confidence = np.max(predictions)
+            predicted_class = class_labels[np.argmax(predictions)]
 
-        # Display the prediction result and confidence level
-        st.write(f"**Prediction:** {predicted_class}")
-        st.write(f"**Confidence:** {confidence:.2f}")
+            # Display the prediction result and confidence level
+            st.write(f"**Prediction:** {predicted_class}")
+            st.write(f"**Confidence:** {confidence:.2f}")
+        except ValueError as e:
+            st.error(f"An error occurred during prediction: {e}")
 
 # Define Notebook View page
 elif page == "View Notebook":
     st.header("Project Notebook")
     display_notebook("brain_tumor_detection/brain_tumor_notebook.ipynb")
+
 
 
