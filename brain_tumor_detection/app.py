@@ -26,18 +26,26 @@ def preprocess_image(image: Image.Image) -> np.array:
     return img_array
 
 # Function to display the notebook
-def display_notebook(notebook_path):
-    # Debug: List files in the directory to verify path
-    st.write("Files in brain_tumor_detection directory:", os.listdir("brain_tumor_detection"))
 
-    # Open and convert the notebook to HTML
-    with open(notebook_path, "r") as f:
+def display_notebook(notebook_path):
+    # Check if the notebook file exists
+    if not os.path.isfile(notebook_path):
+        st.error("Notebook file not found.")
+        return
+
+    # Read the notebook content
+    with open(notebook_path, "r", encoding="utf-8") as f:
         notebook_content = f.read()
+
+    # Convert the notebook to HTML
     notebook_node = nbformat.reads(notebook_content, as_version=4)
     html_exporter = HTMLExporter()
-    html_exporter.template_name = 'basic'
+    html_exporter.template_name = 'lab'  # Use 'lab' template for better rendering
     (body, _) = html_exporter.from_notebook_node(notebook_node)
-    st.components.v1.html(body, height=800, scrolling=True)
+
+    # Display HTML in Streamlit
+    st.components.v1.html(body, height=1000, scrolling=True)
+
 
 # Streamlit app layout and interactions
 st.title("Brain Tumor Detection and Classification")
