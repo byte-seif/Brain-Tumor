@@ -138,8 +138,7 @@ For this project, a **Convolutional Neural Network (CNN)** was implemented to cl
 1. **Accurate Tumor Classification**: Achieve high sensitivity and specificity in identifying and classifying brain tumors across four categories.
 2. **Real-time Prediction**: Allow clinicians and users to upload MRI images for immediate classification and receive results with confidence scores.
 3. **Support Clinical Decision-making**: Provide a consistent and efficient diagnostic tool to assist radiologists, ultimately contributing to faster patient management and improved outcomes.
-
----
+""")
 
 # Sidebar Navigation
 st.sidebar.title("Navigation")
@@ -177,6 +176,7 @@ if page == "Model Testing":
 elif page == "View Notebook":
     st.header("Project Notebook")
     display_notebook("brain_tumor_detection/CNN.ipynb")
+
 
 
 
