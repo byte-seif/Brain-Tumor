@@ -5,6 +5,60 @@ import numpy as np
 import nbformat
 from nbconvert import HTMLExporter
 import os
+import streamlit.components.v1 as components
+
+# Set Streamlit page configuration for wide layout and title
+st.set_page_config(
+    page_title="Brain Tumor Detection and Classification",
+    layout="wide",  # Set the layout to wide
+    initial_sidebar_state="expanded"
+)
+
+# Custom CSS to increase overall element size for a desktop display
+st.markdown("""
+    <style>
+        /* Set base font size for the whole app */
+        html, body, [class*="css"]  {
+            font-size: 20px;
+        }
+
+        /* Make sidebar larger */
+        .css-1v3fvcr {
+            width: 350px;
+        }
+
+        /* Adjust Streamlit buttons and text input */
+        .stButton button {
+            font-size: 1.2em;
+            padding: 15px 30px;
+        }
+
+        .stTextInput, .stTextArea {
+            font-size: 1.2em;
+            padding: 10px;
+        }
+
+        /* Increase size of file uploader */
+        .css-1y0tads {
+            font-size: 1.2em;
+        }
+
+        /* Adjust header size */
+        h1, h2, h3 {
+            font-size: 2em !important;
+        }
+
+        /* Increase size of the main area */
+        .main .block-container {
+            padding: 2rem 5rem;
+        }
+
+        /* Make components wider */
+        .css-2trqyj {
+            max-width: 90%;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 # Load the model
 @st.cache_resource
@@ -52,8 +106,8 @@ def display_notebook(notebook_path):
     html_exporter.template_name = 'lab'  # Use 'lab' template for better rendering
     (body, _) = html_exporter.from_notebook_node(notebook_node)
 
-    # Display HTML in Streamlit
-    st.components.v1.html(body, height=1200, width=1200,scrolling=True)
+    # Display HTML in Streamlit with improved width and height
+    components.v1.html(body, height=1200, width=1200, scrolling=True)
 
 # Streamlit app layout and interactions
 st.title("Brain Tumor Detection and Classification")
@@ -131,6 +185,7 @@ if page == "Model Testing":
 elif page == "View Notebook":
     st.header("Project Notebook")
     display_notebook("brain_tumor_detection/CNN.ipynb")
+
 
 
 
