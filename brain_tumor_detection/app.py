@@ -4,6 +4,7 @@ from PIL import Image, ImageOps
 import numpy as np
 import nbformat
 from nbconvert import HTMLExporter
+import os
 
 # Load the model
 @st.cache_resource
@@ -24,9 +25,12 @@ def preprocess_image(image: Image.Image) -> np.array:
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
     return img_array
 
-
 # Function to display the notebook
-def display_notebook("brain_tumor_detection/brain_tumor_notebook.ipynb"):
+def display_notebook(notebook_path):
+    # Debug: List files in the directory to verify path
+    st.write("Files in brain_tumor_detection directory:", os.listdir("brain_tumor_detection"))
+
+    # Open and convert the notebook to HTML
     with open(notebook_path, "r") as f:
         notebook_content = f.read()
     notebook_node = nbformat.reads(notebook_content, as_version=4)
@@ -65,4 +69,5 @@ if page == "Model Testing":
 
 elif page == "View Notebook":
     st.header("Project Notebook")
-    display_notebook("brain_tumor_notebook.ipynb")
+    display_notebook("brain_tumor_detection/brain_tumor_notebook.ipynb")
+
