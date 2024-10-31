@@ -48,7 +48,7 @@ def display_notebook(notebook_path):
 
 
 # Streamlit app layout and interactions
-st.title("Brain Tumor Detection and Classification")
+st.title("Automated Brain Tumor Detection and Classification Using Deep Learning")
 
 st.markdown("""
 ## **Background**
