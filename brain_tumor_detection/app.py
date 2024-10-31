@@ -97,7 +97,8 @@ def display_notebook(notebook_path):
             logging.error("Notebook content could not be rendered.")
             return
 
-        components.v1.html(body, height=1200, width=1200, scrolling=True)
+        # Corrected to use `components.html()`
+        components.html(body, height=1200, width=1200, scrolling=True)
         logging.info("Notebook content rendered successfully.")
 
     except Exception as e:
@@ -139,6 +140,7 @@ if page == "Model Testing":
 elif page == "View Notebook":
     st.header("Project Notebook")
     display_notebook("brain_tumor_detection/CNN.ipynb")
+
 
 
 
