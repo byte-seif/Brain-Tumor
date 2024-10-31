@@ -53,7 +53,7 @@ def display_notebook(notebook_path):
     (body, _) = html_exporter.from_notebook_node(notebook_node)
 
     # Display HTML in Streamlit
-    st.components.v1.html(body, height=1000, scrolling=True)
+    st.components.v1.html(body, height=1200, width=1200,scrolling=True)
 
 # Streamlit app layout and interactions
 st.title("Brain Tumor Detection and Classification")
