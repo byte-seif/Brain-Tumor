@@ -26,7 +26,7 @@ def preprocess_image(image: Image.Image) -> np.array:
 
 
 # Function to display the notebook
-def display_notebook(notebook_path):
+def display_notebook("brain_tumor_detection/brain_tumor_notebook.ipynb"):
     with open(notebook_path, "r") as f:
         notebook_content = f.read()
     notebook_node = nbformat.reads(notebook_content, as_version=4)
